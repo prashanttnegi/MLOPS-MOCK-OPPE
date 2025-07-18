@@ -7,7 +7,7 @@ class TestModel(unittest.TestCase):
     model_path="artifacts/model.joblib"
     ds= pd.read_csv('data/iris.csv')
     ds['sample_id'] = ds.index
-    cols = ['sample_id'] + [col for col in ds.columns if col != 'sample_id']
+    cols = ['sample_id'] + ['sepal_length', 'petal_length', 'sepal_width', 'petal_width']
     ds = ds[cols]
     print("Enering into the test module.")
     print(ds.head())
