@@ -28,6 +28,7 @@ jobs:
 
       - name: Run model test
         run: |
+          echo "## Test Results" >> report.md
           python test.py >> report.md 2>&1
           echo "Tests completed on $(date)" >> report.md
 
