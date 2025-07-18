@@ -7,7 +7,7 @@ class TestModel(unittest.TestCase):
     model_path="artifacts/model.joblib"
     ds= pd.read_csv('data/iris.csv')
     ds['sample_id'] = ds.index
-    cols = ['sample_id'] + ['sepal_length', 'petal_length', 'sepal_width', 'petal_width', 'species']
+    cols = ['sample_id', 'sepal_length', 'petal_length', 'sepal_width', 'petal_width', 'species']
     ds = ds[cols]
     print("Enering into the test module.")
     print(ds.head())
@@ -24,8 +24,10 @@ class TestModel(unittest.TestCase):
         self.assertEqual(self.ds.drop(columns='species').shape[1], 5, "Expected 5 features")
         
     def test_evaluation(self):
-        sample = self.ds.drop(columns='species').iloc[0:1]
-        result = self.model.predict(sample)
+        sample = self.ds.drop(columns=['species'])
+        print(sample)
+        result = self.model.predict(sample.iloc[0:1])
+        print(result)
         expected = self.ds['species'].iloc[0]
         self.assertEqual(result[0], expected, "Wrong prediction")
             
