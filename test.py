@@ -26,7 +26,7 @@ class TestModel(unittest.TestCase):
     def test_evaluation(self):
         sample = self.ds.drop(columns=['species'])
         print(sample)
-        result = self.model.predict(sample.iloc[0:1])
+        result = self.model.predict(sample[sorted(sample.columns)].iloc[0:1])
         print(result)
         expected = self.ds['species'].iloc[0]
         self.assertEqual(result[0], expected, "Wrong prediction")
