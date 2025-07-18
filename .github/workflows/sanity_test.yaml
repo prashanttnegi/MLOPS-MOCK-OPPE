@@ -37,8 +37,6 @@ jobs:
 
       - name: Setup CML
         uses: iterative/setup-cml@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # Ensures authenticated setup to avoid rate limits
 
       - name: Comment report with CML
         env:
