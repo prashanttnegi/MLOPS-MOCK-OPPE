@@ -29,12 +29,19 @@ jobs:
       - name: Run model test
         run: |
           echo "## Test Results" >> report.md
-          
+          python test.py >> report.md 2>&1 || echo "Tests failed with exit code $?" >> report.md
+          echo "Tests completed on $(date)" >> report.md
+
+      - name: Print report in logs (for debugging)
+        run: cat report.md
+
       - name: Setup CML
         uses: iterative/setup-cml@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Ensures authenticated setup to avoid rate limits
 
       - name: Comment report with CML
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cml comment create --publish report.md 
+          cml comment create --publish report.md
