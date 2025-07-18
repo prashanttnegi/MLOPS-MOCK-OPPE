@@ -1,0 +1,46 @@
+name: Sanity Test and Report
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run model test
+        run: |
+          echo "## Test Results" >> report.md
+          python test.py >> report.md 2>&1
+          echo "Tests completed on $(date)" >> report.md
+
+      - name: Run training
+        run: |
+          python train.py >> report.md 2>&1 || echo "Training failed with exit code $?" >> report.md
+
+      - name: Setup CML
+        uses: iterative/setup-cml@v2
+
+      - name: Comment report with CML
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cml comment create --publish report.md 
