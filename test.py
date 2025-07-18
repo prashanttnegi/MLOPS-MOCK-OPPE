@@ -7,6 +7,7 @@ class TestModel(unittest.TestCase):
     model_path="artifacts/model.joblib"
     ds= pd.read_csv('data/iris.csv')
     print("Enering into the test module.")
+    print(ds.head())
     
     def setUp(self):
         self.model=load(self.model_path)
